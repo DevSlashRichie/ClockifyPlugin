@@ -1,0 +1,47 @@
+<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+
+<idea-plugin>
+
+    <!-- Unique id for this plugin. Must stay constant for the life of the plugin. -->
+    <id>io.github.ricardormdev.clockifyplugin</id>
+
+    <!-- Text to display as name on Preferences/Settings | Plugin page -->
+    <name>ClockifyPlugin</name>
+
+    <!-- Indicate this plugin can be loaded in all IntelliJ Platform-based products. -->
+    <depends>com.intellij.modules.all</depends>
+
+    <!-- Text to display as description on Preferences/Settings | Plugin page -->
+    <description>
+        <![CDATA[
+        Track your time from JetBrains on Clockify!
+    ]]>
+    </description>
+    <change-notes>
+        <![CDATA[
+        <ul>
+            <li><b>1.0</b> Release 1.0.0</li>
+        </ul>
+    ]]>
+    </change-notes>
+
+    <!-- Text to display as company information on Preferences/Settings | Plugin page -->
+    <vendor url="https://ricardormdev.github.io">Ricardo Rodríguez Medina</vendor>
+
+    <extensions defaultExtensionNs="com.intellij">
+
+        <preloadingActivity implementation="io.github.ricardormdev.clockifyplugin.PluginLoader" />
+        <postStartupActivity implementation="io.github.ricardormdev.clockifyplugin.PluginFactory" />
+        <applicationService serviceImplementation="io.github.ricardormdev.clockifyplugin.settings.ApplicationSettingsState" />
+        <statusBarWidgetFactory implementation="io.github.ricardormdev.clockifyplugin.widget.WidgetFactory" />
+        <applicationConfigurable
+                parentId="tools"
+                instance="io.github.ricardormdev.clockifyplugin.settings.AppSettingsConfigurable"
+                id="io.github.ricardormdev.clockifyplugin.settings.AppSettingsConfigurable"
+                displayName="Clockify Plugin">
+        </applicationConfigurable>
+
+    </extensions>
+
+
+</idea-plugin>
