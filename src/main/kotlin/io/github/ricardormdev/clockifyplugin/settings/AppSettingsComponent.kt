@@ -12,25 +12,21 @@ class AppSettingsComponent {
 
     private val email = JBTextField()
     private val password = JBPasswordField()
-    private val buttonVerify = JButton("Verify Details.")
 
     private val mainPanel: JPanel = FormBuilder.createFormBuilder()
-        .addLabeledComponent(JBLabel("Username: "), email, 1, false)
+        .addLabeledComponent(JBLabel("Username & Email: "), email, 1, false)
         .addLabeledComponent(JBLabel("Password: "), password, 1, false)
-        .addComponent(buttonVerify)
         .addComponentFillVertically(JPanel(), 0)
         .panel
 
-
     fun getPanel() : JPanel = mainPanel
-
 
     fun getEmail() : String {
         return email.text
     }
 
     fun getPassword(): String {
-        return password.text
+        return String(password.password)
     }
 
     fun getPreferredFocusedComponent() : JComponent = email

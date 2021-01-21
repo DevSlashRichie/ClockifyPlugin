@@ -26,7 +26,7 @@
     </change-notes>
 
     <!-- Text to display as company information on Preferences/Settings | Plugin page -->
-    <vendor url="https://ricardormdev.github.io">Ricardo Rodríguez Medina</vendor>
+    <vendor url="https://ricardormdev.github.io">Ricardo Rodriguez</vendor>
 
     <extensions defaultExtensionNs="com.intellij">
 

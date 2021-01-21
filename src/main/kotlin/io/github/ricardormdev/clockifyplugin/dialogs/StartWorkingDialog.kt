@@ -11,10 +11,15 @@ import io.github.ricardormdev.clockifyplugin.PluginDataController
 import io.github.ricardormdev.clockifyplugin.PluginLoader
 import io.github.ricardormdev.clockifyplugin.dialogs.custompanels.IComboBox
 import java.awt.event.ItemEvent
+import java.util.concurrent.Executors
 import javax.swing.JComponent
 import javax.swing.JPanel
 
 class StartWorkingDialog(private val project: Project) : DialogWrapper(false) {
+
+    companion object {
+        private val threadPool = Executors.newCachedThreadPool()
+    }
 
     lateinit var workspace: IComboBox
     lateinit var description: JBTextField
@@ -46,12 +51,31 @@ class StartWorkingDialog(private val project: Project) : DialogWrapper(false) {
 
     }
 
-    private fun silentUpdate() {
+    private fun silentUpdate(item: String) {
         projectName.removeAllItems()
         tags.removeAllItems()
 
-        dataController.projects.forEach { projectName.addItem(it.name) }
-        dataController.tags.forEach { tags.addItem(it.name) }
+        this.myOKAction.isEnabled = false
+        this.projectName.isEditable = false
+        this.tags.isEditable = false
+
+        projectName.addItem("Loading...")
+        tags.addItem("Loading...")
+
+        threadPool.submit {
+            dataController.fetchSpecific(item)
+
+            projectName.removeAllItems()
+            tags.removeAllItems()
+
+            dataController.projects.forEach { projectName.addItem(it.name) }
+            dataController.tags.forEach { tags.addItem(it.name) }
+
+            this.myOKAction.isEnabled = true
+            this.projectName.isEditable = false
+            this.tags.isEditable = false
+        }
+
     }
 
 
@@ -71,8 +95,7 @@ class StartWorkingDialog(private val project: Project) : DialogWrapper(false) {
         workspace.addItemListener {
             if(it.stateChange == ItemEvent.SELECTED) {
                 val item  = it.item as String
-                dataController.fetchSpecific(item)
-                silentUpdate()
+                silentUpdate(item)
             }
         }
 

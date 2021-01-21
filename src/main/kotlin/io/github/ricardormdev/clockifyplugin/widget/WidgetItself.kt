@@ -7,7 +7,7 @@ import io.github.ricardormdev.clockifyplugin.PluginLoader
 
 class WidgetItself(private val project: Project) : StatusBarWidget {
 
-    private val id = "io.github.ricardormdev.carlitosideaplugin.WidgetStatusBar"
+    private val id = "io.github.ricardormdev.clockifyplugin.WidgetStatusBar"
 
     override fun dispose() {
         PluginLoader.plugin.containers.remove(project)

@@ -19,10 +19,9 @@ class WidgetPresentation(private val project: Project) : StatusBarWidget.TextPre
 
     override fun getClickConsumer(): Consumer<MouseEvent> = Consumer {
         if(!PluginLoader.plugin.logged) {
-            Notifier.notifyInfo("You aren't logged in!")
+            Notifier.notifyWarning("You aren't logged in!")
             return@Consumer
         }
-
 
         val handle = PluginLoader.plugin
 

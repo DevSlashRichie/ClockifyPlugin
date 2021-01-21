@@ -15,23 +15,33 @@ class AppSettingsConfigurable : Configurable {
     }
 
     override fun isModified(): Boolean {
-        return !component?.getEmail().equals(settingsState.email.value) or
-                !component?.getPassword().equals(settingsState.password.value)
+        val credentials = settingsState.getCredentials()
+
+        val username = credentials?.userName ?: ""
+        val password = credentials?.getPasswordAsString() ?: ""
+
+        return !component?.getEmail().equals(username) or
+                !component?.getPassword().equals(password)
     }
 
     override fun apply() {
-        settingsState.email.value = component?.getEmail() ?: ""
-        settingsState.password.value = component?.getPassword() ?: ""
-        settingsState.refreshToken.value = ""
-        settingsState.token.value = ""
-        settingsState.token.value = ""
+        settingsState.setCredentials(component?.getPassword() ?: "", component?.getEmail() ?: "")
+
+        settingsState.setToken("token", "")
+        settingsState.setToken("refreshToken", "")
 
         PluginLoader.plugin.doLoad()
     }
 
     override fun reset() {
-        component?.setEmail(settingsState.email.value)
-        component?.setPassword(settingsState.password.value)
+        val credentials = settingsState.getCredentials()
+
+        val username = credentials?.userName ?: ""
+        val password = credentials?.getPasswordAsString() ?: ""
+
+        component?.setEmail(username)
+        component?.setPassword(password)
+
         PluginLoader.plugin.doLoad()
     }
 

@@ -8,8 +8,8 @@ class AuthenticateTokens(private val loginUser: User) {
 
     private val mainEndPoint = "https://global.api.clockify.me"
 
-    private var token: String = settingsState.token.value
-    private var refreshToken: String = settingsState.refreshToken.value
+    private var token: String = settingsState.getToken("token")
+    private var refreshToken: String = settingsState.getToken("refreshToken")
 
     fun retrieveFullUser() : UserLogin? {
         var user: UserLogin? = null
@@ -58,8 +58,8 @@ class AuthenticateTokens(private val loginUser: User) {
     }
 
     private fun saveTokens() {
-        settingsState.token.value = token
-        settingsState.refreshToken.value = refreshToken
+        settingsState.setToken("token", token)
+        settingsState.setToken("refreshToken", refreshToken)
     }
 
     private fun String.isTokenValid() : Boolean{
