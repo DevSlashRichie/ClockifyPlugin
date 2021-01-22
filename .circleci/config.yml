@@ -24,16 +24,16 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
-    - run:
-        name: Verify Plugin
-        command: gradle verifyPlugin
-
       - run:
-          name: Build Project
-          command: gradle buildPlugin
+          name: Verify Plugin
+          command: gradle verifyPlugin
 
-      - store_artifacts:
-          path: build/distributions
+        - run:
+            name: Build Project
+            command: gradle buildPlugin
+
+        - store_artifacts:
+            path: build/distributions
 
 workflows:
   version: 2
