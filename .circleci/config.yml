@@ -33,8 +33,7 @@ jobs:
           command: gradle buildPlugin
 
       - store_artifacts:
-          path: build/distributions
-
+            path: build/distributions
 
 workflows:
   version: 2
