@@ -6,7 +6,7 @@
     <id>io.github.ricardormdev.clockifyplugin</id>
 
     <!-- Text to display as name on Preferences/Settings | Plugin page -->
-    <name>ClockifyPlugin</name>
+    <name>Clockify</name>
 
     <!-- Indicate this plugin can be loaded in all IntelliJ Platform-based products. -->
     <depends>com.intellij.modules.all</depends>
@@ -14,7 +14,7 @@
     <!-- Text to display as description on Preferences/Settings | Plugin page -->
     <description>
         <![CDATA[
-        Track your time from JetBrains on Clockify!
+        Track your working time from JetBrains on Clockify!
     ]]>
     </description>
     <change-notes>

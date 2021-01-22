@@ -34,6 +34,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.21")
     implementation("com.konghq:unirest-java:3.11.09")
     implementation("com.auth0:java-jwt:3.12.0")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
 }
 
 intellij {
