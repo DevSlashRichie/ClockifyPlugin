@@ -24,9 +24,9 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
-    - run:
-        name: Verify Plugin
-        command: gradle verifyPlugin
+      - run:
+          name: Verify Plugin
+          command: gradle verifyPlugin
 
       - run:
           name: Build Project
