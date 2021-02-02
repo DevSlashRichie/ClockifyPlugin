@@ -9,39 +9,63 @@
     <name>Clockify</name>
 
     <!-- Indicate this plugin can be loaded in all IntelliJ Platform-based products. -->
-    <depends>com.intellij.modules.all</depends>
+    <depends>com.intellij.modules.lang</depends>
 
     <!-- Text to display as description on Preferences/Settings | Plugin page -->
     <description>
         <![CDATA[
         Track your working time from JetBrains on Clockify!
+        <br />
+        <b> Features: </b>
+        <ul>
+            <li> Start & Stop your time directly on the IDE. </li>
+            <li> Track your working time. </li>
+            <li> Select and define session description. </li>
+        </ul>
+        <br />
+        <b> Getting Started: </b>
+        <br />
+        Go into <i> Other Settings > Clockify </i>, then write your Clockify login details.
+        <br />
+        Start tracking your time by clicking on the low-right corner (on the status bar) and click again to stop tracking.
+        <br />
+        <img src="https://i.imgur.com/4cRCHEr.png" alt="Clockify at status bar" /><br />
+        <img src="https://i.imgur.com/tmq3GcF.png" alt="Tracking time" /><br />
+        <img src="https://i.imgur.com/JYdWs5R.png" alt="Stop tracking your time" /><br />
+        <br />
+        Assign session descriptions when starting to track your time.
+        <br />
+        <img src="https://i.imgur.com/xKHH0c2.png" alt="Add your session description">
     ]]>
     </description>
     <change-notes>
         <![CDATA[
         <ul>
-            <li><b>1.0</b> Release 1.0.0</li>
+            <li><b>1.0.1</b> It now loads any active entry on loading the IDE.</li>
+            <li><b>1.0</b> Initial Release 1.0.0</li>
         </ul>
     ]]>
     </change-notes>
 
     <!-- Text to display as company information on Preferences/Settings | Plugin page -->
-    <vendor url="https://ricardormdev.github.io">Ricardo Rodriguez Medina</vendor>
+    <vendor url="https://ricardormdev.github.io" email="romr020606@gmail.com">Ricardo Rodriguez Medina</vendor>
 
-    <idea-version since-build="201" />
+    <idea-version since-build="201.6668.113" />
 
     <extensions defaultExtensionNs="com.intellij">
 
         <preloadingActivity implementation="io.github.ricardormdev.clockifyplugin.PluginLoader" />
-        <postStartupActivity implementation="io.github.ricardormdev.clockifyplugin.PluginFactory" />
         <applicationService serviceImplementation="io.github.ricardormdev.clockifyplugin.settings.ApplicationSettingsState" />
         <statusBarWidgetFactory implementation="io.github.ricardormdev.clockifyplugin.widget.WidgetFactory" />
         <applicationConfigurable
-                parentId="tools"
+                groupId="other"
+                groupWeight="200"
                 instance="io.github.ricardormdev.clockifyplugin.settings.AppSettingsConfigurable"
                 id="io.github.ricardormdev.clockifyplugin.settings.AppSettingsConfigurable"
-                displayName="Clockify Plugin">
+                displayName="Clockify">
         </applicationConfigurable>
+
+        <applicationService serviceImplementation="io.github.ricardormdev.clockifyplugin.Plugin" />
 
     </extensions>
 

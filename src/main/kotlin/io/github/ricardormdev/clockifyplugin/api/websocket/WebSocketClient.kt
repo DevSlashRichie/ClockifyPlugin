@@ -6,6 +6,7 @@ import io.netty.channel.ChannelInitializer
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioSocketChannel
+import io.netty.handler.codec.http.EmptyHttpHeaders
 import io.netty.handler.codec.http.HttpClientCodec
 import io.netty.handler.codec.http.HttpHeaders
 import io.netty.handler.codec.http.HttpObjectAggregator
@@ -33,7 +34,7 @@ class WebSocketClient(uri: String) {
 
         val handler = WebSocketClientHandler(
             WebSocketClientHandshakerFactory.newHandshaker(
-                uri, WebSocketVersion.V13, null, false, HttpHeaders.EMPTY_HEADERS,1280000
+                uri, WebSocketVersion.V13, null, false, EmptyHttpHeaders.INSTANCE,1280000
             ), adapters
         )
 

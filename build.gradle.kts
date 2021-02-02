@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "io.github.ricardormdev.clockifyplugin"
-version = "1.0.0"
+version = "1.0.1"
 
 tasks.withType<JavaCompile> {
     sourceCompatibility = "1.8"
@@ -36,6 +36,7 @@ dependencies {
     implementation("com.auth0:java-jwt:3.12.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
+    testImplementation("io.mockk:mockk:1.10.5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
 }
 

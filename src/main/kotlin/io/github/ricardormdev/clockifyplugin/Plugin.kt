@@ -1,21 +1,28 @@
 package io.github.ricardormdev.clockifyplugin
 
+import com.intellij.openapi.Disposable
+import com.intellij.openapi.components.Service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.WindowManager
 import io.github.ricardormdev.clockifyplugin.api.API
+import io.github.ricardormdev.clockifyplugin.api.models.TimeEntry
 import io.github.ricardormdev.clockifyplugin.api.websocket.ClockifyEvent
 import io.github.ricardormdev.clockifyplugin.api.websocket.WebSocketClient
 import io.github.ricardormdev.clockifyplugin.api.websocket.authentication.AuthenticateTokens
 import io.github.ricardormdev.clockifyplugin.api.websocket.authentication.User
 import io.github.ricardormdev.clockifyplugin.notification.Notifier
 import io.github.ricardormdev.clockifyplugin.settings.settingsState
+import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.Instant
+import java.util.*
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
 import kotlin.collections.HashMap
 
-
-class Plugin {
+@Service
+class Plugin : Disposable {
 
     // LOAD OUR LOGGER
     private var logger: Logger = Logger.getLogger("ClockifyPlugin")
@@ -133,6 +140,13 @@ class Plugin {
                 dataController.updateUser()
             }
 
+            // Check if the user has any entry started
+            val activeEntry = api.getEntryInProgress(dataController.user.activeWorkspace, dataController.user.id)
+
+           activeEntry.run {
+               startLocalWork(this)
+           }
+
             Notifier.notifyInfo("Clockify loaded correctly.")
         }
 
@@ -171,9 +185,22 @@ class Plugin {
         }
     }
 
-    private fun startLocalWork() {
+    private fun startLocalWork(timeEntry: TimeEntry? = null) {
         working = true
-        timer.startTimer()
+
+        if (timeEntry != null) {
+            val startDate = timeEntry.timeInterval?.start
+            val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+            format.timeZone = TimeZone.getTimeZone("UTC")
+
+            val asDate = format.parse(startDate)
+            val duration = Duration.between(asDate.toInstant(), Instant.now())
+
+            timer.startTimer(duration.seconds.toInt())
+        } else {
+            timer.startTimer()
+        }
+
     }
 
     private fun stopLocalWork() {
@@ -187,6 +214,10 @@ class Plugin {
         return if(working)
             "You've worked for: " + timer.getTiming().toFormattedTime()
         else "You are not working."
+    }
+
+    override fun dispose() {
+        client.close()
     }
 
 }

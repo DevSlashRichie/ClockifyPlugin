@@ -14,7 +14,7 @@ class AppSettingsComponent {
     private val password = JBPasswordField()
 
     private val mainPanel: JPanel = FormBuilder.createFormBuilder()
-        .addLabeledComponent(JBLabel("Username & Email: "), email, 1, false)
+        .addLabeledComponent(JBLabel("Username or Email: "), email, 1, false)
         .addLabeledComponent(JBLabel("Password: "), password, 1, false)
         .addComponentFillVertically(JPanel(), 0)
         .panel

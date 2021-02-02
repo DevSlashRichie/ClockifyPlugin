@@ -39,6 +39,15 @@ class API(auth: AuthenticateTokens) {
         return request("workspaces/$workspaceId/tags", Array<Tag>::class.java, arrayOf())
     }
 
+    fun getEntryInProgress(workspaceId: String, userId: String) : TimeEntry? {
+        val entries = request("/v1/workspaces/${workspaceId}/user/${userId}/time-entries?in-progress=true&hydrated=true",
+            Array<TimeEntry>::class.java, arrayOf())
+        if (entries.isNotEmpty()) {
+            return entries[0]
+        }
+        return null
+    }
+
     fun setDefaultWorkspace(workspaceId: String, userId: String) {
 
         val url = url("users/$userId/defaultWorkspace/$workspaceId")

@@ -7,7 +7,6 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.util.IconLoader
-import com.intellij.openapi.wm.WindowManager
 import io.github.ricardormdev.clockifyplugin.PluginLoader
 import io.github.ricardormdev.clockifyplugin.settings.AppSettingsConfigurable
 
