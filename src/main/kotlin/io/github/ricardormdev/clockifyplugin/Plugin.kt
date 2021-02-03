@@ -143,9 +143,8 @@ class Plugin : Disposable {
             // Check if the user has any entry started
             val activeEntry = api.getEntryInProgress(dataController.user.activeWorkspace, dataController.user.id)
 
-           activeEntry.run {
-               startLocalWork(this)
-           }
+            if(activeEntry != null)
+                startLocalWork(activeEntry)
 
             Notifier.notifyInfo("Clockify loaded correctly.")
         }
