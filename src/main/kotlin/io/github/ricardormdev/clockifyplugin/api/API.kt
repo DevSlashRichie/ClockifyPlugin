@@ -61,9 +61,11 @@ class API(auth: AuthenticateTokens) {
 
     }
 
-    fun startWorking(workspaceId: String, projectId: String, billable: Boolean, description : String) {
+    fun startWorking(workspaceId: String, projectId: String?, billable: Boolean, description : String) {
         val url = url("workspaces/$workspaceId/timeEntries/full")
         val currentTime = Instant.now().toString()
+
+        val finalProjectId = if (projectId != null) "\"$projectId\"" else "null"
 
         Unirest.post(url)
             .header("Content-Type", "application/json")
@@ -71,7 +73,7 @@ class API(auth: AuthenticateTokens) {
             .accept("application/json")
             .body("""
                 {
-                    "projectId": "$projectId",
+                    "projectId": $finalProjectId,
                     "description": "$description",
                     "billable": "$billable",
                     "start": "$currentTime"

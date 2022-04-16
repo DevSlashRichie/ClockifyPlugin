@@ -18,29 +18,37 @@ class WidgetPresentation(private val project: Project) : StatusBarWidget.TextPre
     }
 
     override fun getClickConsumer(): Consumer<MouseEvent> = Consumer {
-        if(!PluginLoader.plugin.logged) {
+        if (!PluginLoader.plugin.logged) {
             Notifier.notifyWarning("You aren't logged in!")
             return@Consumer
         }
 
         val handle = PluginLoader.plugin
 
-        if(handle.working) {
+        if (handle.working) {
             val endDialog = StopWorkingDialog()
 
-            if(endDialog.showAndGet()) {
+            if (endDialog.showAndGet()) {
                 handle.stopWorking()
             }
 
         } else {
             val startDialog = StartWorkingDialog(project)
 
-            if(startDialog.showAndGet()) {
-                val workspaceId: String = handle.dataController.getWorkspaceByName(startDialog.workspace.selectedItem!!.toString()).id
-                val projectId: String = handle.dataController.getProjectByName(startDialog.projectName.selectedItem!!.toString()).id
+            if (startDialog.showAndGet()) {
+                val workspaceId: String =
+                    handle.dataController.getWorkspaceByName(startDialog.workspace.selectedItem!!.toString()).id
 
-                val billable: Boolean = startDialog.billable.isSelected
-                val description: String = startDialog.description.text
+                val pickedProject = startDialog.projectName;
+
+                val projectId =
+                    if (pickedProject.isEnabled)
+                        handle.dataController.getProjectByName(pickedProject.toString()).id
+                    else
+                        null
+
+                val billable = startDialog.billable.isSelected
+                val description = startDialog.description.text
 
                 handle.startWorking(workspaceId, projectId, billable, description)
             }

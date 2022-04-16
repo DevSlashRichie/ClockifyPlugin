@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "io.github.ricardormdev.clockifyplugin"
-version = "1.0.1"
+version = "1.0.2"
 
 tasks.withType<JavaCompile> {
     sourceCompatibility = "1.8"

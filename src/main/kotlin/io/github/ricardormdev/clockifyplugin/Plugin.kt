@@ -19,13 +19,21 @@ import java.util.*
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
+import java.util.logging.SimpleFormatter
 import kotlin.collections.HashMap
 
 @Service
 class Plugin : Disposable {
 
-    // LOAD OUR LOGGER
-    private var logger: Logger = Logger.getLogger("ClockifyPlugin")
+
+    companion object {
+        // LOAD OUR LOGGER
+        private var logger: Logger = Logger.getLogger("ClockifyPlugin")
+
+        fun getLogger() : Logger {
+            return this.logger
+        }
+    }
 
     // LOAD THE AUTHENTICATOR.
     private lateinit var authenticator: AuthenticateTokens
@@ -66,7 +74,7 @@ class Plugin : Disposable {
                 stopWorking()
             }
 
-            "Making sure about login data".print()
+            "Making sure about login data".info()
 
             if(!verifyLoginData()) {
                 "Could not login".print()
@@ -76,7 +84,7 @@ class Plugin : Disposable {
                 updateContainers()
             }
 
-            "Authenticating user.".print()
+            "Authenticating user.".info()
 
             val credentials = settingsState.getCredentials()
             val email = credentials?.userName ?: ""
@@ -87,7 +95,7 @@ class Plugin : Disposable {
             // VALIDATE INFORMATION.
             authenticator.retrieveFullUser().let {
                 if(it == null) {
-                    "We couldn't authenticate, wrong details. We'll try to use your saved token.".print()
+                    "We couldn't authenticate, wrong details. We'll try to use your saved token.".info()
                     editableStatusMessage = "Couldn't authenticate you, wrong login details."
                     Notifier.notifyError("$editableStatusMessage We'll try to use your saved token.")
                     logged = false
@@ -95,22 +103,22 @@ class Plugin : Disposable {
                 }
             }
 
-            "Create API interface".print()
+            "Create API interface".info()
 
             api = API(authenticator)
 
-            "Creating connection with clockify.".print()
+            "Creating connection with clockify.".info()
 
             client = WebSocketClient("wss://stomp.clockify.me:80/clockify/$email/$sessID")
             client.open()
             client.authenticate(authenticator.retrieveToken())
 
-            "Loading data from clockify.".print()
+            "Loading data from clockify.".info()
 
             dataController = PluginDataController(api)
 
             if(!dataController.prepareUser(authenticator)) {
-                "Could not fetch your use id".print()
+                "Could not fetch your use id".info()
                 editableStatusMessage = "Error while fetching your username."
                 Notifier.notifyError(editableStatusMessage)
                 updateContainers()
@@ -168,11 +176,12 @@ class Plugin : Disposable {
         }
     }
 
-    fun startWorking(workspaceId: String, projectId: String, billable: Boolean, description: String) {
+    fun startWorking(workspaceId: String, projectId: String?, billable: Boolean, description: String) {
         if(!working) {
             api.startWorking(workspaceId, projectId, billable, description)
             dataController.user.activeWorkspace = workspaceId
             startLocalWork()
+            "Marked as working".info()
         }
 
     }
@@ -181,6 +190,7 @@ class Plugin : Disposable {
         if(working) {
             api.endWorking(dataController.user.activeWorkspace)
             stopLocalWork()
+            "Marked as not working".info()
         }
     }
 

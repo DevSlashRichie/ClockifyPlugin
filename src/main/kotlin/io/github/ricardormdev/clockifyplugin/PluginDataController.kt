@@ -53,7 +53,7 @@ class PluginDataController(private val api: API) {
         tags = api.getTags(activeWorkspace)
     }
 
-    fun getWorkspaceByID(id: String) = workspaces.first { it.id == id }
+    fun getWorkspaceByID(id: String) = workspaces.firstOrNull { it.id == id }
 
     fun getWorkspaceByName(name: String) = workspaces.first { it.name == name }
 

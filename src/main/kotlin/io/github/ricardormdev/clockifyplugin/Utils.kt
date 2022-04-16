@@ -1,13 +1,19 @@
 package io.github.ricardormdev.clockifyplugin
 
+import java.util.logging.Level
+
 fun random8String() : String {
     val allowedChars = ('a'..'z')
     return (1..8).map { allowedChars.random() }.joinToString("")
 }
 
 fun String.print() : String {
-    println("[CarlitosPlugin] $this")
-    return "[CarlitosPlugin] $this"
+    println("[ClockifyPlugin] $this")
+    return "[ClockifyPlugin] $this"
+}
+
+fun String.info() {
+    this.print()
 }
 
 fun Int.toFormattedTime() : String {

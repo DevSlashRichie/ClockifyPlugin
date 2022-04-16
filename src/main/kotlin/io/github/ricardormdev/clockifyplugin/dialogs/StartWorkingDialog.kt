@@ -39,7 +39,10 @@ class StartWorkingDialog(private val project: Project) : DialogWrapper(false) {
         val currentFile = FileEditorManager.getInstance(project).selectedEditor?.file?.name ?: project.name
 
         val workspaces = dataController.workspaces.map { it.name }.toTypedArray()
-        val pickedWorkspaceIndex = workspaces.indexOf(dataController.getWorkspaceByID(dataController.user.activeWorkspace).name)
+
+        val workspaceId = dataController.getWorkspaceByID(dataController.user.activeWorkspace)
+
+        val pickedWorkspaceIndex = if (workspaceId != null) workspaces.indexOf(workspaceId.name) else 0
 
         workspace = IComboBox(workspaces)
         workspace.selectedIndex = pickedWorkspaceIndex

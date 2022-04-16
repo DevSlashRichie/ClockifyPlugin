@@ -41,6 +41,7 @@
     <change-notes>
         <![CDATA[
         <ul>
+            <li><b>1.0.2</b> Fixed issue <a href="https://github.com/RicardormDev/ClockifyPlugin/issues/3">#3</a>.</li>
             <li><b>1.0.1</b> It now loads any active entry on loading the IDE.</li>
             <li><b>1.0</b> Initial Release 1.0.0</li>
         </ul>
